@@ -113,7 +113,7 @@ export default class CalendarScroller extends Component {
       return;
     }
     const newIndex = Math.max(this.state.visibleStartIndex - this.state.numVisibleItems, 0);
-    if (this.rlv) this.rlv.scrollToIndex(newIndex, true);
+    if (('rlv' in this) && (this.rlv !== undefined)) this.rlv.scrollToIndex(newIndex, true);
   }
 
   // Scroll right, guarding against end index.
@@ -123,7 +123,7 @@ export default class CalendarScroller extends Component {
       this.rlv.scrollToEnd(true); // scroll to the very end, including padding
       return;
     }
-    if (this.rlv) this.rlv.scrollToIndex(newIndex, true);
+    if (('rlv' in this) && (this.rlv !== undefined)) this.rlv.scrollToIndex(newIndex, true);
   }
 
   // Scroll to given date, and check against min and max date if available.
@@ -143,9 +143,7 @@ export default class CalendarScroller extends Component {
 
     for (let i = 0; i < this.state.data.length; i++) {
       if (this.state.data[i].date.isSame(targetDate, "day")) {
-        if ((this.rlv !== undefined) && (typeof this.rlv.scrollToIndex(i, true) !== "undefined")) {
-          this.rlv.scrollToIndex(i, true)
-        };
+        if (('rlv' in this) && (this.rlv !== undefined)) this.rlv.scrollToIndex(i, true);
         break;
       }
     }
@@ -194,12 +192,12 @@ export default class CalendarScroller extends Component {
     for (let i = 0; i < data.length; i++) {
       if (data[i].date.isSame(prevVisStart, "day")) {
         this.shifting = true;
-        if (this.rlv) this.rlv.scrollToIndex(i, false);
+        if (('rlv' in this) && (this.rlv !== undefined)) this.rlv.scrollToIndex(i, false);
         // RecyclerListView sometimes returns position to old index after
         // moving to the new one. Set position again after delay.
         this.timeoutResetPositionId = setTimeout(() => {
           this.timeoutResetPositionId = null;
-          if (this.rlv) this.rlv.scrollToIndex(i, false);
+          if (('rlv' in this) && (this.rlv !== undefined)) this.rlv.scrollToIndex(i, false);
           this.shifting = false; // debounce
         }, 800);
         break;
