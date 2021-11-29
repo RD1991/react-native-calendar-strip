@@ -197,7 +197,7 @@ export default class CalendarScroller extends Component {
         // moving to the new one. Set position again after delay.
         this.timeoutResetPositionId = setTimeout(() => {
           this.timeoutResetPositionId = null;
-          this.rlv.scrollToIndex(i, false);
+          this.rlv?.scrollToIndex(i, false);
           this.shifting = false; // debounce
         }, 800);
         break;
